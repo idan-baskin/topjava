@@ -23,10 +23,7 @@ public class UserMealsUtil {
         }
     }
 
-    public static List<UserMealWithExceed>  getFilteredWithExceeded(List<UserMeal> mealList, LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
-
-/*
-        Реализация используя циклы:
+    public static List<UserMealWithExceed>  getFilteredWithExceededUsingLoop(List<UserMeal> mealList, LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
 
         Map<LocalDate, Integer> dateCaloriesMap = new HashMap<>();
         for (UserMeal userMeal : mealList) {
@@ -41,12 +38,9 @@ public class UserMealsUtil {
             }
         }
         return mealWithExceedsList;
-*/
+    }
 
-/*
-        Реализация используя Stream API:
-*/
-
+    public static List<UserMealWithExceed> getFilteredWithExceeded(List<UserMeal> mealList, LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
         Map<LocalDate, Integer> dateCaloriesMap = mealList
                 .stream()
                 .collect(Collectors.groupingBy(UserMeal::getDate, Collectors.summingInt(UserMeal::getCalories)));
