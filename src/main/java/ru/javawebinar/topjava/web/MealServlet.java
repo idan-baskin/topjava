@@ -2,6 +2,7 @@ package ru.javawebinar.topjava.web;
 
 import org.slf4j.Logger;
 import ru.javawebinar.topjava.dao.MealDao;
+import ru.javawebinar.topjava.dao.MealDaoImpl;
 import ru.javawebinar.topjava.model.MealWithExceed;
 import ru.javawebinar.topjava.util.MealsUtil;
 
@@ -18,7 +19,8 @@ import static org.slf4j.LoggerFactory.getLogger;
 
 public class MealServlet extends HttpServlet {
     private static final Logger log = getLogger(UserServlet.class);
-    private MealDao mealDao = new MealDao();
+    private MealDao mealDao = new MealDaoImpl();
+    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -26,8 +28,6 @@ public class MealServlet extends HttpServlet {
 
         List<MealWithExceed> meals = MealsUtil.getFilteredWithExceeded(mealDao.getAll(), LocalTime.MIN, LocalTime.MAX, 2000);
         request.setAttribute("meals", meals);
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         request.setAttribute("formatter", formatter);
 
         request.getRequestDispatcher("/meals.jsp").forward(request, response);
